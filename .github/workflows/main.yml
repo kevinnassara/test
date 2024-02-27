@@ -1,0 +1,22 @@
+name: Auto Merge Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v2
+      with:
+        ref: main
+
+    - name: Merge pull request
+      run: |
+        git fetch origin ${{ github.event.pull_request.head.ref }}
+        git merge --no-ff --no-commit FETCH_HEAD
+        git commit -m "Merge pull request #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
+        git push origin main
