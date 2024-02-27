@@ -36,8 +36,19 @@
 <!-- Premier bouton animé -->
 <a href="#" class="animated-button">Bouton 1</a>
 
-<!-- Deuxième bouton animé avec animation JavaScript -->
+<!-- Deuxième bouton animé avec animation CSS -->
 <a href="#" class="animated-button scale-animation">Bouton 2</a>
+
+<!-- Troisième bouton animé avec animation JavaScript -->
+<button class="animated-button" onclick="changeColor(this)">Bouton 3</button>
+
+<script>
+  // Fonction pour changer la couleur du bouton de manière aléatoire
+  function changeColor(button) {
+    var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16); // Génère une couleur hexadécimale aléatoire
+    button.style.backgroundColor = randomColor; // Applique la couleur au bouton
+  }
+</script>
 
 </body>
 </html>
