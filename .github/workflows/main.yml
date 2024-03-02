@@ -1,22 +1,28 @@
-name: Auto Merge Pull Requests
-
+name: automerge
 on:
   pull_request:
-    branches:
-      - main
-
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
 jobs:
-  merge:
+  automerge:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout main branch
-      uses: actions/checkout@v2
-      with:
-        ref: main
-
-    - name: Merge pull request
-      run: |
-        git fetch origin ${{ github.event.pull_request.head.ref }}
-        git merge --no-ff --no-commit --allow-unrelated-histories FETCH_HEAD
-        git commit -m "Merge pull request #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
-        git push origin main
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.16.2"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
